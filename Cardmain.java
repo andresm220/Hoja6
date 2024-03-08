@@ -1,224 +1,175 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Cardmain {
-    public static void main(String [] args ){
-        //Declaracion de estructuras de datos a utilizar y scanner 
+    private static Map<String, Card> cartas = new HashMap<>();
+    private static Map<String, Card> coleccionUsuario = new HashMap<>();
+    private static Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Card> coleccion = new ArrayList<>();
-        Map<String, String> cartas = new HashMap<>();
-        Scanner scanner = new Scanner(System.in);
-        TreeMap<String, String> treeMap = new TreeMap<>();
-        LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
-        boolean seguir =true;
-
-        //Leemos el txt
-        while(seguir){
-            try (BufferedReader br = new BufferedReader(new FileReader("cards_desc.txt"))) {
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    // Dividir la línea en dos partes usando el carácter '|'
-                    String[] datos = linea.split("\\|");
-                    if (datos.length == 2) { // Verificar que la línea tiene exactamente dos elementos
-                        String nombreCarta = datos[0].trim();  // Eliminar espacios en blanco alrededor del nombre de la carta
-                        String tipoCarta = datos[1].trim();    // Eliminar espacios en blanco alrededor del tipo de carta
-    
-                        // Agregar la carta al HashMap
-                        cartas.put(nombreCarta, tipoCarta);
-                    } else {
-                        System.out.println("Error: línea no válida - " + linea);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    
-        //Menu para elegir la estructura 
-        menu();
-     
-        int estructura = scanner.nextInt();
-        scanner.nextLine();
-        switch(estructura){
-
-            case  1 :
-            //Menu para elegir opciones del programa 
-            menu2();
-            int choice= scanner.nextInt();
+    public static void main(String[] args) {
+        leerDocumento();
+        while (true) {
+            menu();
+            int estructura = scanner.nextInt();
             scanner.nextLine();
-            switch (choice) {
-                //Implementacion HashMap
+            switch (estructura) {
                 case 1:
-                //Agregar a la coleccion
-                System.out.println("Ingrese el nombre de la carta que quiere agregar a su colección");
-                String carta = scanner.nextLine();
-    
-              
-                if(cartas.containsKey(carta.trim())){
-                    Card card =new Card(carta,cartas.get(carta));
-                    coleccion.add(card);
-                    System.out.println("Carta agregada a tu coleccion ");
-                }else{
-                    System.out.println("El nombre de la carta ingresada no existe");
-                }
-               
-                break;
-                    
-    
+                    menu2();
+                    int choice = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (choice) {
+                        case 1:
+                            agregarCarta();
+                            break;
+                        case 2:
+                            buscarCarta();
+                            break;
+                        case 3:
+                            mostrarColeccionUsuario();
+                            break;
+                        case 4:
+                            mostrarColeccionOrdenadaPorTipo();
+                            break;
+                        case 5:
+                            // Implementar la opción de mostrar todas las cartas
+                            break;
+                        case 6:
+                            // Implementar la opción de mostrar todas las cartas ordenadas por tipo
+                            break;
+                        default:
+                            System.out.println("Error, ingrese una opcion valida");
+                            break;
+                    }
+                    break;
                 case 2:
-                //Buscar tipo de una carta 
-                System.out.println("Ingrese el nombre de la carta");
-                String tipo = scanner.nextLine();
-
-                if(cartas.containsKey(tipo)){
-                    System.out.println("La carta " + tipo + " es de tipo  " + cartas.get(tipo.trim()));
-
-                    
-                }else{
-                    System.out.println("El nombre de la carta ingresada no existe");
-                }
-               
-
-    
-                break;
-    
+                    // Implementar opciones para TreeMap
+                    break;
                 case 3:
-    
-                break;
-                case 4:
-    
-                break;
-                case 5:
-    
-                break;
-                case 6:
-    
-                break;
-            
+                    // Implementar opciones para LinkedHashMap
+                    break;
                 default:
-                System.out.println("Error, ingrese una opcion valida");
-    
-                break;
+                    System.out.println("Error, ingrese una opcion valida");
+                    break;
             }
-            break;
-            case 2:
-            menu2();
-            int choice2= scanner.nextInt();
-            switch (choice2) {
-                case 1:
-                    
-                break;
-                case 2:
-    
-                break;
-    
-                case 3:
-    
-                break;
-                case 4:
-    
-                break;
-                case 5:
-    
-                break;
-                case 6:
-    
-                break;
-            
-                default:
-                System.out.println("Error, ingrese una opcion valida");
-                
-                break;
-            }
-    
-            break;
-            case 3:
-            menu2();
-            int choice3=scanner.nextInt();
-            switch (choice3) {
-                case 1:
-               
-                    
-                break;
-                case 2:
-    
-                break;
-    
-                case 3:
-    
-                break;
-                case 4:
-    
-                break;
-                case 5:
-    
-                break;
-                case 6:
-    
-                break;
-            
-                default:
-                System.out.println("Error, ingrese una opcion valida");
-                
-                break;
-            }
-            break;
-            default:
-            System.out.println("Error, ingrese una opcion valida");
-            break;
         }
-    
-
-
-
-
-
-
-        }
-
-        
-
-
-
-
     }
 
-
-
-    public static  void menu(){
+    public static void menu() {
         System.out.println("====MENU====");
         System.out.println("Elija la estructura que desea usar");
         System.out.println("1.HashMap");
         System.out.println("2.TreeMap");
         System.out.println("3.LinkedHashMap");
-        
     }
 
-    public static void menu2(){
+    public static void menu2() {
         System.out.println("====MENU====");
         System.out.println("¿Qué desea hacer?");
         System.out.println("1.Agregar carta a colección");
         System.out.println("2.Buscar tipo de una carta ");
-        System.out.println("3.Ver coleccion");
-        System.out.println("4.Ver coleccion ordenada por tipo ");
+        System.out.println("3.Ver colección del usuario");
+        System.out.println("4.Ver colección ordenada por tipo ");
         System.out.println("5.Mostrar todas las cartas ");
         System.out.println("6.Mostrar todas las cartas ordenadas por tipo");
-        
-        
     }
 
+    public static void leerDocumento() {
+        try (BufferedReader br = new BufferedReader(new FileReader("cards_desc.txt"))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split("\\|");
+                if (datos.length == 2) {
+                    String nombreCarta = datos[0].trim();
+                    String tipoCarta = datos[1].trim();
+                    if (!cartas.containsKey(nombreCarta)) {
+                        cartas.put(nombreCarta, new Card(tipoCarta, 0));
+                    }
+                } else {
+                    System.out.println("Error: línea no válida - " + linea);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static void agregarCarta() {
+        System.out.println("Ingrese el nombre de la carta que quiere agregar a su colección");
+        String nombreCarta = scanner.nextLine();
+        if (cartas.containsKey(nombreCarta.trim())) {
+            Card card = cartas.get(nombreCarta.trim());
+            card.setCantidad(card.getCantidad() + 1);
+            
+            // Agregar la carta al mapa de la colección del usuario
+            if (!coleccionUsuario.containsKey(nombreCarta.trim())) {
+                coleccionUsuario.put(nombreCarta.trim(), card);
+            }
+            
+            System.out.println("Carta agregada a tu colección ");
+        } else {
+            System.out.println("El nombre de la carta ingresada no existe");
+        }
+    }
 
+    public static void buscarCarta() {
+        System.out.println("Ingrese el nombre de la carta");
+        String nombreCarta = scanner.nextLine();
+        if (cartas.containsKey(nombreCarta.trim())) {
+            Card card = cartas.get(nombreCarta.trim());
+            System.out.println("La carta " + nombreCarta + " es de tipo " + card.getTipo());
+        } else {
+            System.out.println("La carta " + nombreCarta + " no está en la colección.");
+        }
+    }
+
+    public static void mostrarColeccionUsuario() {
+        System.out.println("=== Colección del Usuario ===");
+        for (Map.Entry<String, Card> entry : coleccionUsuario.entrySet()) {
+            String nombreCarta = entry.getKey();
+            Card card = entry.getValue();
+            System.out.println("Nombre: " + nombreCarta + " | Tipo: " + card.getTipo() + " | Cantidad: " + card.getCantidad());
+        }
+    }
+
+    public static void mostrarColeccionOrdenadaPorTipo() {
+        // Crear un mapa para almacenar las cartas agrupadas por tipo
+        Map<String, List<Card>> cartasPorTipo = new HashMap<>();
+        // Iterar sobre la colección del usuario y agrupar las cartas por tipo
+        for (Map.Entry<String, Card> entry : coleccionUsuario.entrySet()) {
+            Card card = entry.getValue();
+            String tipoCarta = card.getTipo();
+            // Verificar si el mapa ya contiene una lista para el tipo actual
+            if (!cartasPorTipo.containsKey(tipoCarta)) {
+                cartasPorTipo.put(tipoCarta, new ArrayList<>());
+            }
+            // Agregar la carta a la lista correspondiente al tipo
+            cartasPorTipo.get(tipoCarta).add(card);
+        }
+        // Iterar sobre las entradas del mapa y mostrar las cartas agrupadas por tipo
+        for (Map.Entry<String, List<Card>> entry : cartasPorTipo.entrySet()) {
+            String tipoCarta = entry.getKey();
+            List<Card> cartasTipo = entry.getValue();
+
+            System.out.println("=== Colección del Usuario ===");
+            System.out.println("Tipo " + tipoCarta);
+            for (Card card : cartasTipo) {
+                System.out.println("Nombre: " + entry.getKey() + " | Tipo: " + tipoCarta + " | Cantidad: " + card.getCantidad());
+            }
+        }
+    }
     
-
+    
+    
 }
 
 
-    
 
-  
 
 
 
