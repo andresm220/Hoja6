@@ -7,10 +7,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Cardmain {
     private static Map<String, Card> cartas = new HashMap<>();
     private static Map<String, Card> coleccionUsuario = new HashMap<>();
+    private static TreeMap<String, Card> cartasTree = new TreeMap<>();
+    private static TreeMap<String, Card> coleccionUsuarioTree = new TreeMap<>();
     private static Scanner scanner = new Scanner(System.in);
     private static LinkedHashMap<String, Card> linkedHashMap = new LinkedHashMap<>();
 
@@ -42,34 +45,29 @@ public class Cardmain {
                             mostrarColeccionGeneralHash();
                             break;
                         case 6:
-                        
+
                             // Implementar la opción de mostrar todas las cartas ordenadas por tipo
-                        System.out.println("¿Qué tipo de carta deseas ver?");
-                        System.out.println("1.Monstruo");
-                        System.out.println("2.Trampa");
-                        System.out.println("3.Hechizo");
-                        int lee = scanner.nextInt();
-                        switch (lee) {
-                            case 1:
-                            mostrarColeccionGeneralMonstruoHash();
-                                
-                                break;
-                            case 2:
-                            mostrarColeccionGeneralTrampaHash();
-                                break;
-                            case 3:
-                            mostrarColeccionGeneralHechizoHash();
-                                break;
+                            System.out.println("¿Qué tipo de carta deseas ver?");
+                            System.out.println("1.Monstruo");
+                            System.out.println("2.Trampa");
+                            System.out.println("3.Hechizo");
+                            int lee = scanner.nextInt();
+                            switch (lee) {
+                                case 1:
+                                    mostrarColeccionGeneralMonstruoHash();
 
-                        
-                            default:
-                            System.out.println("No existe ese tipo de carta ");
-                                break;
-                        }
+                                    break;
+                                case 2:
+                                    mostrarColeccionGeneralTrampaHash();
+                                    break;
+                                case 3:
+                                    mostrarColeccionGeneralHechizoHash();
+                                    break;
 
-                      
-                            
-                         
+                                default:
+                                    System.out.println("No existe ese tipo de carta ");
+                                    break;
+                            }
 
                             break;
                         default:
@@ -78,8 +76,30 @@ public class Cardmain {
                     }
                     break;
                 case 2:
-                    // Implementar opciones para TreeMap
+                menu2();
+                int choice2 = scanner.nextInt();
+                scanner.nextLine();
+                switch (choice2) {
+                    case 1:
+                        agregarCartaTreeMap();
+                        break;
+                    case 2:
+                        buscarCartaTreeMap();
+                        break;
+                    case 3:
+                        mostrarColeccionUsuarioTreeMap();
+                        break;
+                    case 4:
+                        // Implementar opcion mostrar cartas tipo del usuario
+                        break;
+                    case 5:
+                        mostrarColeccionGeneralTreeMap();
+                        break;
+                    case 6:
                     break;
+                }
+                    break;
+                
                 case 3:
                     menu2();
                     int elec = scanner.nextInt();
@@ -101,41 +121,35 @@ public class Cardmain {
                             mostrarColeccionGeneralLinked();
                             break;
                         case 6:
-                        
+
                             // Implementar la opción de mostrar todas las cartas ordenadas por tipo
-                        System.out.println("¿Qué tipo de carta deseas ver?");
-                        System.out.println("1.Monstruo");
-                        System.out.println("2.Trampa");
-                        System.out.println("3.Hechizo");
-                        int lee = scanner.nextInt();
-                        switch (lee) {
-                            case 1:
-                            mostrarColeccionGeneralMonstruoLinked();
-                                
-                                break;
-                            case 2:
-                            mostrarColeccionGeneralTrampaLinked();
-                                break;
-                            case 3:
-                            mostrarColeccionGeneralHechizoLinked();
-                                break;
+                            System.out.println("¿Qué tipo de carta deseas ver?");
+                            System.out.println("1.Monstruo");
+                            System.out.println("2.Trampa");
+                            System.out.println("3.Hechizo");
+                            int lee = scanner.nextInt();
+                            switch (lee) {
+                                case 1:
+                                    mostrarColeccionGeneralMonstruoLinked();
 
-                        
-                            default:
-                            System.out.println("No existe ese tipo de carta ");
-                                break;
-                        }
+                                    break;
+                                case 2:
+                                    mostrarColeccionGeneralTrampaLinked();
+                                    break;
+                                case 3:
+                                    mostrarColeccionGeneralHechizoLinked();
+                                    break;
 
-                      
-                            
-                         
+                                default:
+                                    System.out.println("No existe ese tipo de carta ");
+                                    break;
+                            }
 
                             break;
                         default:
                             System.out.println("Error, ingrese una opcion valida");
                             break;
                     }
-
 
                     // Implementar opciones para LinkedHashMap
                     break;
@@ -175,7 +189,8 @@ public class Cardmain {
                     String tipoCarta = datos[1].trim();
                     if (!cartas.containsKey(nombreCarta)) {
                         cartas.put(nombreCarta, new Card(tipoCarta, 0));
-                        linkedHashMap.put(nombreCarta,new Card(tipoCarta,0));
+                        linkedHashMap.put(nombreCarta, new Card(tipoCarta, 0));
+                        cartasTree.put(nombreCarta, new Card(tipoCarta, 0));
                     }
                 } else {
                     System.out.println("Error: línea no válida - " + linea);
@@ -186,7 +201,8 @@ public class Cardmain {
         }
     }
 
-    //Implementacion HashMap 
+
+    // Implementacion HashMap
 
     public static void agregarCartaHash() {
         System.out.println("Ingrese el nombre de la carta que quiere agregar a su colección");
@@ -194,12 +210,12 @@ public class Cardmain {
         if (cartas.containsKey(nombreCarta.trim())) {
             Card card = cartas.get(nombreCarta.trim());
             card.setCantidad(card.getCantidad() + 1);
-            
+
             // Agregar la carta al mapa de la colección del usuario
             if (!coleccionUsuario.containsKey(nombreCarta.trim())) {
                 coleccionUsuario.put(nombreCarta.trim(), card);
             }
-            
+
             System.out.println("Carta agregada a tu colección ");
         } else {
             System.out.println("El nombre de la carta ingresada no existe");
@@ -222,7 +238,8 @@ public class Cardmain {
         for (Map.Entry<String, Card> entry : coleccionUsuario.entrySet()) {
             String nombreCarta = entry.getKey();
             Card card = entry.getValue();
-            System.out.println("Nombre: " + nombreCarta + " | Tipo: " + card.getTipo() + " | Cantidad: " + card.getCantidad());
+            System.out.println(
+                    "Nombre: " + nombreCarta + " | Tipo: " + card.getTipo() + " | Cantidad: " + card.getCantidad());
         }
     }
 
@@ -234,6 +251,7 @@ public class Cardmain {
             System.out.println("Nombre: " + nombreCarta + " | Tipo: " + card.getTipo());
         }
     }
+
     public static void mostrarColeccionGeneralMonstruoHash() {
         // Códigos de escape ANSI para cambiar el color del texto en la consola
 
@@ -243,15 +261,11 @@ public class Cardmain {
                 System.out.println(entry.getKey());
             }
 
-            
         }
-    
 
-        }
-    
-       
-    
-    public static void mostrarColeccionGeneralTrampaHash(){
+    }
+
+    public static void mostrarColeccionGeneralTrampaHash() {
 
         for (Map.Entry<String, Card> entry : cartas.entrySet()) {
             Card card = entry.getValue();
@@ -261,20 +275,19 @@ public class Cardmain {
         }
 
     }
-    public static void mostrarColeccionGeneralHechizoHash(){
- 
+
+    public static void mostrarColeccionGeneralHechizoHash() {
+
         for (Map.Entry<String, Card> entry : cartas.entrySet()) {
             Card card = entry.getValue();
             if ("Hechizo".equals(card.getTipo().trim())) {
-                System.out.println(entry.getKey() );
+                System.out.println(entry.getKey());
 
+            }
         }
-    }}
+    }
 
-
-
-
-    //Implementacion Linked HashMap 
+    // Implementacion Linked HashMap
     public static void agregarCartaLinked() {
         System.out.println("Ingrese el nombre de la carta que quiere agregar a su colección");
         String nombreCarta = scanner.nextLine();
@@ -309,7 +322,8 @@ public class Cardmain {
         for (Map.Entry<String, Card> entry : coleccionUsuario.entrySet()) {
             String nombreCarta = entry.getKey();
             Card card = entry.getValue();
-            System.out.println("Nombre: " + nombreCarta + " | Tipo: " + card.getTipo() + " | Cantidad: " + card.getCantidad());
+            System.out.println(
+                    "Nombre: " + nombreCarta + " | Tipo: " + card.getTipo() + " | Cantidad: " + card.getCantidad());
         }
     }
 
@@ -352,16 +366,56 @@ public class Cardmain {
         }
     }
 
-    
+    // Agregar carta a colección usando TreeMap
+    public static void agregarCartaTreeMap() {
+        System.out.println("Ingrese el nombre de la carta que quiere agregar a su colección");
+        String nombreCarta = scanner.nextLine();
+        if (cartas.containsKey(nombreCarta.trim())) {
+            Card card = cartas.get(nombreCarta.trim());
+            card.setCantidad(card.getCantidad() + 1);
 
-    
+            // Agregar la carta al mapa de la colección del usuario
+            if (!coleccionUsuarioTree.containsKey(nombreCarta.trim())) {
+                coleccionUsuarioTree.put(nombreCarta.trim(), card);
+            }
+
+            System.out.println("Carta agregada a tu colección ");
+        } else {
+            System.out.println("El nombre de la carta ingresada no existe");
+        }
+    }
+
+    // Buscar carta usando TreeMap
+    public static void buscarCartaTreeMap() {
+        System.out.println("Ingrese el nombre de la carta");
+        String nombreCarta = scanner.nextLine();
+        if (cartasTree.containsKey(nombreCarta.trim())) {
+            Card card = cartasTree.get(nombreCarta.trim());
+            System.out.println("La carta " + nombreCarta + " es de tipo " + card.getTipo());
+        } else {
+            System.out.println("La carta " + nombreCarta + " no está en la colección.");
+        }
+    }
+
+    // Mostrar colección general usando TreeMap
+    public static void mostrarColeccionGeneralTreeMap() {
+        System.out.println("=== Colección General (Ordenada por Nombre) ===");
+        for (Map.Entry<String, Card> entry : cartasTree.entrySet()) {
+            String nombreCarta = entry.getKey();
+            Card card = entry.getValue();
+            System.out.println("Nombre: " + nombreCarta + " | Tipo: " + card.getTipo());
+        }
+    }
+
+    // Mostrar colección del usuario usando TreeMap
+    public static void mostrarColeccionUsuarioTreeMap() {
+        System.out.println("=== Colección del Usuario ===");
+        for (Map.Entry<String, Card> entry : coleccionUsuarioTree.entrySet()) {
+            String nombreCarta = entry.getKey();
+            Card card = entry.getValue();
+            System.out.println(
+                    "Nombre: " + nombreCarta + " | Tipo: " + card.getTipo() + " | Cantidad: " + card.getCantidad());
+        }
+    }
+
 }
-
-
-
-
-
-
-
-
-
