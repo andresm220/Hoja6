@@ -34,10 +34,10 @@ public class Cardmain {
                             mostrarColeccionUsuario();
                             break;
                         case 4:
-                            mostrarColeccionOrdenadaPorTipo();
+                            // Implementar opcion mostrar cartas tipo del usuario
                             break;
                         case 5:
-                            // Implementar la opción de mostrar todas las cartas
+                            mostrarColeccionGeneral();
                             break;
                         case 6:
                             // Implementar la opción de mostrar todas las cartas ordenadas por tipo
@@ -137,34 +137,14 @@ public class Cardmain {
         }
     }
 
-    public static void mostrarColeccionOrdenadaPorTipo() {
-        // Crear un mapa para almacenar las cartas agrupadas por tipo
-        Map<String, List<Card>> cartasPorTipo = new HashMap<>();
-        // Iterar sobre la colección del usuario y agrupar las cartas por tipo
-        for (Map.Entry<String, Card> entry : coleccionUsuario.entrySet()) {
+    public static void mostrarColeccionGeneral() {
+        System.out.println("=== Colección General ===");
+        for (Map.Entry<String, Card> entry : cartas.entrySet()) {
+            String nombreCarta = entry.getKey();
             Card card = entry.getValue();
-            String tipoCarta = card.getTipo();
-            // Verificar si el mapa ya contiene una lista para el tipo actual
-            if (!cartasPorTipo.containsKey(tipoCarta)) {
-                cartasPorTipo.put(tipoCarta, new ArrayList<>());
-            }
-            // Agregar la carta a la lista correspondiente al tipo
-            cartasPorTipo.get(tipoCarta).add(card);
-        }
-        // Iterar sobre las entradas del mapa y mostrar las cartas agrupadas por tipo
-        for (Map.Entry<String, List<Card>> entry : cartasPorTipo.entrySet()) {
-            String tipoCarta = entry.getKey();
-            List<Card> cartasTipo = entry.getValue();
-
-            System.out.println("=== Colección del Usuario ===");
-            System.out.println("Tipo " + tipoCarta);
-            for (Card card : cartasTipo) {
-                System.out.println("Nombre: " + entry.getKey() + " | Tipo: " + tipoCarta + " | Cantidad: " + card.getCantidad());
-            }
+            System.out.println("Nombre: " + nombreCarta + " | Tipo: " + card.getTipo());
         }
     }
-    
-    
     
 }
 
